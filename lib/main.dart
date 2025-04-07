@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:first_pro/layout/news_app/news_layout.dart';
 import 'package:first_pro/layout/todo_app/todo_layout.dart';
 import 'package:first_pro/modules/counter/counter_screen.dart';
+import 'package:first_pro/modules/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/bloc_observer.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:first_pro/shared/cubit/states.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 void main() {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
@@ -20,7 +20,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
