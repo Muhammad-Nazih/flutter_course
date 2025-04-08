@@ -1,3 +1,4 @@
+import 'package:first_pro/modules/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -78,47 +79,52 @@ Widget buildTaskItem(Map model, context) => Dismissible(
   },
 );
 
-Widget buildArticleItem(article, context) => Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Row(
-    children: [
-      Container(
-        width: 120.0,
-        height: 120.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          image: DecorationImage(
-            image: NetworkImage('${article['urlToImage']}'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      SizedBox(width: 20.0),
-      Expanded(
-        child: Container(
+Widget buildArticleItem(article, context) => InkWell(
+  onTap: () {
+    navigateTo(context, WebViewScreen(article['url']));
+  },
+  child: Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Row(
+      children: [
+        Container(
+          width: 120.0,
           height: 120.0,
-          child: Column(
-            //mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  '${article['title']}',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ),
-              Text(
-                '${article['publishedAt']}',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            image: DecorationImage(
+              image: NetworkImage('${article['urlToImage']}'),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-      ),
-    ],
+        SizedBox(width: 20.0),
+        Expanded(
+          child: Container(
+            height: 120.0,
+            child: Column(
+              //mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    '${article['title']}',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                Text(
+                  '${article['publishedAt']}',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
   ),
 );
 
