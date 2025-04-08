@@ -1,6 +1,6 @@
-import 'package:first_pro/modules/archived_tasks/archived_tasks_screen.dart';
-import 'package:first_pro/modules/done_tasks/done_tasks_screen.dart';
-import 'package:first_pro/modules/new_tasks/new_tasks_screen.dart';
+import 'package:first_pro/modules/todo_app/archived_tasks/archived_tasks_screen.dart';
+import 'package:first_pro/modules/todo_app/done_tasks/done_tasks_screen.dart';
+import 'package:first_pro/modules/todo_app/new_tasks/new_tasks_screen.dart';
 import 'package:first_pro/shared/components/components.dart';
 import 'package:first_pro/shared/components/constants.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';

@@ -1,4 +1,4 @@
-import 'package:first_pro/modules/web_view/web_view_screen.dart';
+import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 

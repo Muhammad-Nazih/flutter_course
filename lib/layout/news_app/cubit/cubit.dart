@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:first_pro/layout/news_app/states.dart';
-import 'package:first_pro/modules/business/business_screen.dart';
-import 'package:first_pro/modules/science/science_screen.dart';
-import 'package:first_pro/modules/settings/settings_screen.dart';
-import 'package:first_pro/modules/sports/sports_screen.dart';
+import 'package:first_pro/modules/news_app/business/business_screen.dart';
+import 'package:first_pro/modules/news_app/science/science_screen.dart';
+import 'package:first_pro/modules/news_app/sports/sports_screen.dart';
 import 'package:first_pro/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

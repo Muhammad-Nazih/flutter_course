@@ -1,5 +1,5 @@
-import 'package:first_pro/modules/counter/cubit/cubit.dart';
-import 'package:first_pro/modules/counter/cubit/states.dart';
+import 'package:first_pro/modules/counter_app/counter/cubit/cubit.dart';
+import 'package:first_pro/modules/counter_app/counter/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
