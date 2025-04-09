@@ -136,6 +136,14 @@ Widget myDivider() => Padding(
 void navigateTo(context, Widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => Widget));
 
+void navigateAndFinish(context, Widget) =>
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Widget,
+    ),
+    (route) {
+      return false;
+      },
+    );
+
 Widget articleBuilder(list, context) =>
     list.length > 0
         ? ListView.separated(

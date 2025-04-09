@@ -37,6 +37,7 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
+  fontFamily: 'Jannah',
 );
 ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
@@ -73,4 +74,5 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
   ),
+  fontFamily: 'Jannah',
 );
