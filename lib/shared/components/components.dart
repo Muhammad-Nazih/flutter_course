@@ -2,6 +2,28 @@ import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 
+// Widget defaultButton({
+//   required double width,
+//   required Color background,
+//   required Function function,
+//   required String text,
+// }) => Container(
+//                     color: background,
+//                     width: width,
+//                     child: MaterialButton(
+//                       onPressed: () {
+//                         if (formkey.currentState!.validate()) {
+//                           print(emialController.text);
+//                           print(passwordController.text);
+//                         }
+//                       },
+//                       child: Text(
+//                         'LOGIN',
+//                         style: TextStyle(fontSize: 20, color: Colors.white),
+//                       ),
+//                     ),
+//                   );
+
 Widget defaultFormField({
   required TextEditingController controller,
   required TextInputType type,
@@ -10,6 +32,8 @@ Widget defaultFormField({
   required FormFieldValidator<String> validate,
   required String label,
   required IconData prefix,
+  IconData? suffix,
+  VoidCallback? suffixPressed,
   GestureTapCallback? onTap,
   bool isClickable = true,
 }) => TextFormField(
@@ -23,6 +47,7 @@ Widget defaultFormField({
   decoration: InputDecoration(
     labelText: label,
     prefixIcon: Icon(prefix),
+    suffix: Icon(suffix),
     border: OutlineInputBorder(),
   ),
 );
@@ -136,13 +161,13 @@ Widget myDivider() => Padding(
 void navigateTo(context, Widget) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => Widget));
 
-void navigateAndFinish(context, Widget) =>
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Widget,
-    ),
-    (route) {
-      return false;
-      },
-    );
+void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(builder: (context) => Widget),
+  (route) {
+    return false;
+  },
+);
 
 Widget articleBuilder(list, context) =>
     list.length > 0
