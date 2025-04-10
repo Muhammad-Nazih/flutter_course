@@ -2,27 +2,34 @@ import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 
-// Widget defaultButton({
-//   required double width,
-//   required Color background,
-//   required Function function,
-//   required String text,
-// }) => Container(
-//                     color: background,
-//                     width: width,
-//                     child: MaterialButton(
-//                       onPressed: () {
-//                         if (formkey.currentState!.validate()) {
-//                           print(emialController.text);
-//                           print(passwordController.text);
-//                         }
-//                       },
-//                       child: Text(
-//                         'LOGIN',
-//                         style: TextStyle(fontSize: 20, color: Colors.white),
-//                       ),
-//                     ),
-//                   );
+
+Widget defaultTextButton({
+  required VoidCallback onPressed,
+  required String text, 
+  required Color color,
+}) => TextButton(
+                  onPressed: onPressed, 
+                  child: Text(text.toUpperCase(),
+                  selectionColor: color,
+                  ),
+                );
+
+Widget defaultButton({
+  required double width,
+  required Color background,
+  required VoidCallback onPressed,
+  required String text,
+}) => Container(
+  color: background, 
+  width: width,
+  child: MaterialButton(
+    onPressed: onPressed,
+  child: Text(
+    text.toUpperCase(), 
+    style: TextStyle(fontSize: 20, color: Colors.white),
+  ),
+  ),
+);
 
 Widget defaultFormField({
   required TextEditingController controller,
@@ -36,6 +43,7 @@ Widget defaultFormField({
   VoidCallback? suffixPressed,
   GestureTapCallback? onTap,
   bool isClickable = true,
+  bool isPassword = false,
 }) => TextFormField(
   controller: controller,
   keyboardType: type,
@@ -44,6 +52,7 @@ Widget defaultFormField({
   validator: validate,
   onTap: onTap,
   enabled: isClickable,
+
   decoration: InputDecoration(
     labelText: label,
     prefixIcon: Icon(prefix),

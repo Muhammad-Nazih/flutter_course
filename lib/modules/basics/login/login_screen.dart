@@ -1,3 +1,4 @@
+import 'package:first_pro/shared/components/components.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -69,22 +70,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    color: Colors.blue,
-                    width: double.infinity,
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (formkey.currentState!.validate()) {
-                          print(emialController.text);
-                          print(passwordController.text);
-                        }
-                      },
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
+                  defaultButton(
+                    width: double.infinity, 
+                    background: Colors.blue, 
+                    onPressed: (){
+                      print(emialController.text);
+                      print(passwordController.text);
+                    }, 
+                    text: 'Login'
                     ),
-                  ),
                   SizedBox(height: 100),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
