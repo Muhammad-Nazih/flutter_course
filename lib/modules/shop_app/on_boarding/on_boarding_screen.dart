@@ -1,5 +1,6 @@
 import 'package:first_pro/modules/shop_app/login/shop_login_screen.dart';
 import 'package:first_pro/shared/components/components.dart';
+import 'package:first_pro/shared/network/local/cache_helper.dart';
 import 'package:first_pro/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -41,6 +42,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   ];
 
   bool isLast = false;
+
+  // void submit(){
+  //   CacheHelper.sharedPreferences.saveData(key: 'onBoarding', value: true,).then((value) 
+  //   {
+  //     if (value)
+  //     {
+  //       navigateAndFinish(context, ShopLoginScreen());
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
