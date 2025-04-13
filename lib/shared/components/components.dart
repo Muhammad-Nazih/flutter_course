@@ -2,17 +2,14 @@ import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 
-
 Widget defaultTextButton({
   required VoidCallback onPressed,
-  required String text, 
+  required String text,
   required Color color,
 }) => TextButton(
-                  onPressed: onPressed, 
-                  child: Text(text.toUpperCase(),
-                  selectionColor: color,
-                  ),
-                );
+  onPressed: onPressed,
+  child: Text(text.toUpperCase(), selectionColor: color),
+);
 
 Widget defaultButton({
   required double width,
@@ -20,14 +17,14 @@ Widget defaultButton({
   required VoidCallback onPressed,
   required String text,
 }) => Container(
-  color: background, 
+  color: background,
   width: width,
   child: MaterialButton(
     onPressed: onPressed,
-  child: Text(
-    text.toUpperCase(), 
-    style: TextStyle(fontSize: 20, color: Colors.white),
-  ),
+    child: Text(
+      text.toUpperCase(),
+      style: TextStyle(fontSize: 20, color: Colors.white),
+    ),
   ),
 );
 
@@ -47,6 +44,7 @@ Widget defaultFormField({
 }) => TextFormField(
   controller: controller,
   keyboardType: type,
+  obscureText: isPassword,
   onFieldSubmitted: onSubmit,
   onChanged: onChange,
   validator: validate,
@@ -56,7 +54,14 @@ Widget defaultFormField({
   decoration: InputDecoration(
     labelText: label,
     prefixIcon: Icon(prefix),
-    suffix: Icon(suffix),
+    suffixIcon:
+        suffix != null
+            ? IconButton(
+              icon: Icon(suffix),
+              onPressed: suffixPressed,
+              padding: EdgeInsets.zero,
+            )
+            : null,
     border: OutlineInputBorder(),
   ),
 );
