@@ -43,15 +43,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   bool isLast = false;
 
-  // void submit(){
-  //   CacheHelper.sharedPreferences.saveData(key: 'onBoarding', value: true,).then((value) 
-  //   {
-  //     if (value)
-  //     {
-  //       navigateAndFinish(context, ShopLoginScreen());
-  //     }
-  //   });
-  // }
+void submit(){
+  CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+    if(value){
+      navigateAndFinish(context, ShopLoginScreen());
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              navigateAndFinish(context, ShopLoginScreen());
+              submit();
             },
             child: Text(
               'SKIP',
@@ -115,7 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      navigateAndFinish(context, ShopLoginScreen());
+                      submit();
                     } else {
                       boardController.nextPage(
                         duration: Duration(milliseconds: 750),
