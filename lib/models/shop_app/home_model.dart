@@ -14,10 +14,10 @@ class HomeDataModel {
 
   HomeDataModel.fromJson(Map<String, dynamic> json) {
     json['banners'].forEach((element) {
-      banners.add(element);
+      banners.add(BannerModel.fromJson(element));  // Convert Map to BannerModel
     });
     json['products'].forEach((element) {
-      products.add(element);
+      products.add(ProductModel.fromJson(element));  // Convert Map to ProductModel
     });
   }
 }
