@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:first_pro/layout/news_app/states.dart';
+import 'package:first_pro/layout/news_app/cubit/states.dart';
 import 'package:first_pro/modules/news_app/business/business_screen.dart';
 import 'package:first_pro/modules/news_app/science/science_screen.dart';
 import 'package:first_pro/modules/news_app/sports/sports_screen.dart';
