@@ -31,15 +31,22 @@ class ShopCubit extends Cubit<ShopStates> {
   }
 
   HomeModel? homeModel;
+
+  Map<int, bool> favorites = {};
+
   void getHomeData() {
     emit(ShopLoadingHomeDataState());
-    DioHelper.getData(
-      url: HOME,
-      token: token,
-      ).then((value) {
+    DioHelper.getData(url: HOME, token: token)
+        .then((value) {
           homeModel = HomeModel.fromJson(value.data);
-          print(homeModel!.data!.banners[0].image);
-          print(homeModel!.status);
+          // print(homeModel!.data!.banners[0].image);
+          // print(homeModel!.status);
+
+          homeModel!.data!.products.forEach((element) {
+            favorites.addAll({element.id!: element.inFavorites!});
+          });
+
+          print(favorites.toString());
           // printFullText(homeModel.toString());
           emit(ShopSuccessHomeDataState());
         })
@@ -50,11 +57,10 @@ class ShopCubit extends Cubit<ShopStates> {
   }
 
   CategoriesModel? categoriesModel;
+
   void getCategories() {
-    DioHelper.getData(
-      url: GET_CATEGORIES,
-      token: token,
-      ).then((value) {
+    DioHelper.getData(url: GET_CATEGORIES, token: token)
+        .then((value) {
           categoriesModel = CategoriesModel.fromJson(value.data);
 
           emit(ShopSuccessCategoriesState());
@@ -62,6 +68,20 @@ class ShopCubit extends Cubit<ShopStates> {
         .catchError((error) {
           print(error.toString());
           emit(ShopErrorCategoriesState());
+        });
+  }
+
+  void changeFavorites(int productId) {
+    DioHelper.postData(
+          url: FAVORITES,
+          data: {'product_id': productId},
+          token: token,
+        )
+        .then((value) {
+          emit(ShopSuccessChangeFavoritesState());
+        })
+        .catchError((error) {
+          emit(ShopErrorChangeFavoritesState());
         });
   }
 }

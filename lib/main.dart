@@ -30,6 +30,7 @@ void main() async {
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   String? token = CacheHelper.getData(key: 'token');
+  print(token);
 
   Widget widget;
 
@@ -64,8 +65,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: 
-      [
+      providers: [
         BlocProvider(
           create:
               (context) =>
@@ -74,9 +74,13 @@ class MyApp extends StatelessWidget {
                     ..getSports()
                     ..getScience(),
         ),
-        BlocProvider(create: (context) => AppCubit()..changeAppMode()
-        ),
-        BlocProvider(create: (context) => ShopCubit()..getHomeData()..getCategories(),
+        BlocProvider(create: (context) => AppCubit()..changeAppMode()),
+        BlocProvider(
+          create:
+              (context) =>
+                  ShopCubit()
+                    ..getHomeData()
+                    ..getCategories(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -87,7 +91,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: ThemeMode.light,
-                // AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+            // AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             home: startWidget,
           );
         },
