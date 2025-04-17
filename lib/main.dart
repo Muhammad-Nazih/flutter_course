@@ -30,7 +30,7 @@ void main() async {
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   String? token = CacheHelper.getData(key: 'token');
-  print(token);
+  print('Token: $token');
 
   Widget widget;
 

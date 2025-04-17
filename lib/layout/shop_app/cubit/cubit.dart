@@ -1,5 +1,6 @@
 import 'package:first_pro/layout/shop_app/cubit/states.dart';
 import 'package:first_pro/models/shop_app/categories_model.dart';
+import 'package:first_pro/models/shop_app/change_favorites_model.dart';
 import 'package:first_pro/models/shop_app/home_model.dart';
 import 'package:first_pro/modules/shop_app/categories/categories_screen.dart';
 import 'package:first_pro/modules/shop_app/favorites/favorites_screen.dart';
@@ -39,11 +40,14 @@ class ShopCubit extends Cubit<ShopStates> {
     DioHelper.getData(url: HOME, token: token)
         .then((value) {
           homeModel = HomeModel.fromJson(value.data);
-          // print(homeModel!.data!.banners[0].image);
-          // print(homeModel!.status);
+          //print(homeModel!.data!.banners[0].image);
+          //print(homeModel!.status); 
 
-          homeModel!.data!.products.forEach((element) {
-            favorites.addAll({element.id!: element.inFavorites!});
+          homeModel!.data!.products.forEach((element) 
+          {
+            favorites.addAll({
+              element.id!: element.inFavorites!,
+            });
           });
 
           print(favorites.toString());
@@ -71,13 +75,29 @@ class ShopCubit extends Cubit<ShopStates> {
         });
   }
 
+
+  ChangeFavoritesModel changeFavoritesModel;
+
   void changeFavorites(int productId) {
+
+    favorites[productId] = !favorites[productId];
+    emit(ShopChangeFavoritesState());
+    
     DioHelper.postData(
           url: FAVORITES,
           data: {'product_id': productId},
           token: token,
         )
         .then((value) {
+
+          changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
+          print(value.data);
+
+          if(!changeFavoritesModel.status)
+          {
+            favorites[productId] = !favorites[productId];
+          }
+
           emit(ShopSuccessChangeFavoritesState());
         })
         .catchError((error) {
