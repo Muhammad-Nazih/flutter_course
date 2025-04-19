@@ -14,11 +14,11 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
-        // if (ShopSuccessChangeFavoritesState) {
-        //   if (!state.model.state) {
-        //     showToast(text: state.model.message, state: ToastStates.ERROR);
-        //   }
-        // }
+        if (state is ShopSuccessChangeFavoritesState) {
+          if (!state.model.status!) {
+            showToast(text: state.model.message!, state: ToastStates.ERROR);
+          }
+        }
       },
       builder: (context, state) {
         return ShopCubit.get(context).homeModel != null &&
@@ -105,7 +105,7 @@ class ProductsScreen extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 1.0,
             crossAxisSpacing: 1.0,
-            childAspectRatio: 1 / 1.7,
+            childAspectRatio: 1 / 1.8,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: List.generate(
@@ -146,31 +146,30 @@ class ProductsScreen extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            Image(
+              image: NetworkImage(model.image!),
+              width: double.infinity,
+              height: 200.0,
+            ),
+            if (model.discount != 0)
+              Container(
+                color: Colors.red,
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: Text(
+                  'DISCOUNT',
+                  style: TextStyle(fontSize: 8.0, color: Colors.white),
+                ),
+              ),
+          ],
+        ),
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                alignment: AlignmentDirectional.bottomStart,
-                children: [
-                  Image(
-                    image: NetworkImage(model.image!),
-                    width: double.infinity,
-                    height: 200.0,
-                    fit: BoxFit.cover,
-                  ),
-                  if (model.discount != 0)
-                    Container(
-                      color: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Text(
-                        'DISCOUNT',
-                        style: TextStyle(fontSize: 8.0, color: Colors.white),
-                      ),
-                    ),
-                ],
-              ),
               Text(
                 model.name!,
                 maxLines: 2,
@@ -198,7 +197,7 @@ class ProductsScreen extends StatelessWidget {
                   Spacer(),
                   IconButton(
                     onPressed: () {
-                      ShopCubit.get(context).changeFavorites(model.id!); 
+                      ShopCubit.get(context).changeFavorites(model.id!);
                       print(model.id);
                     },
                     icon: CircleAvatar(

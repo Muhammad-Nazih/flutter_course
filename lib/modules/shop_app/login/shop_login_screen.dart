@@ -1,4 +1,5 @@
 import 'package:first_pro/layout/shop_app/shop_layout.dart';
+import 'package:first_pro/main.dart';
 import 'package:first_pro/modules/shop_app/login/cubit/cubit.dart';
 import 'package:first_pro/modules/shop_app/login/cubit/states.dart';
 import 'package:first_pro/modules/shop_app/register/shop_register_screen.dart';
@@ -13,11 +14,11 @@ class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({super.key});
 
   var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
     return BlocProvider(
       create: (BuildContext context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
@@ -28,18 +29,19 @@ class ShopLoginScreen extends StatelessWidget {
               print(state.loginModel.data!.token);
 
               CacheHelper.saveData(
-                key: 'token', value: 
-                state.loginModel.data!.token).then((value){
-                navigateAndFinish(context, ShopLayout(),);
+                key: 'token',
+                value: state.loginModel.data!.token,
+              ).then((value) {
+                token = state.loginModel.data!.token;
+                navigateAndFinish(context, ShopLayout());
               });
-
             } else {
               print(state.loginModel.message);
 
               showToast(
-                text: state.loginModel.message!, 
+                text: state.loginModel.message!,
                 state: ToastStates.ERROR,
-                );
+              );
             }
           }
         },

@@ -13,8 +13,8 @@ Widget defaultTextButton({
 );
 
 Widget defaultButton({
-  required double width,
-  required Color background,
+  double? width,
+  Color? background,
   required VoidCallback onPressed,
   required String text,
 }) => Container(

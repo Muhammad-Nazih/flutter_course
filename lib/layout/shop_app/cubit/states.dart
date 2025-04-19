@@ -1,4 +1,5 @@
 import 'package:first_pro/models/shop_app/change_favorites_model.dart';
+import 'package:first_pro/models/shop_app/shop_login_model.dart';
 
 abstract class ShopStates {}
 
@@ -31,3 +32,13 @@ class ShopLoadingGetFavoritesState extends ShopStates {}
 class ShopSuccessGetFavoritesState extends ShopStates {}
 
 class ShopErrorGetFavoritesState extends ShopStates {}
+
+class ShopLoadingUserDataState extends ShopStates {}
+
+class ShopSuccessUserDataState extends ShopStates {
+  final ShopLoginModel loginModel;
+
+  ShopSuccessUserDataState(this.loginModel);
+}
+
+class ShopErrorUserDataState extends ShopStates {}
