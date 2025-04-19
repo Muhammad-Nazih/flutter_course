@@ -19,17 +19,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+
+
+String? token;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
-  DioHelper.init();
+
   await CacheHelper.init();
+  DioHelper.init();
+
 
   bool? isDark = CacheHelper.getData(key: 'isDark');
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  String? token = CacheHelper.getData(key: 'token');
+  token = CacheHelper.getData(key: 'token');
   print('Token: $token');
 
   Widget widget;
@@ -79,8 +85,9 @@ class MyApp extends StatelessWidget {
           create:
               (context) =>
                   ShopCubit()
-                    ..getHomeData()
-                    ..getCategories(),
+                    ..getHomeData(token: token)
+                    ..getCategories()
+                    // ..getFavorites(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

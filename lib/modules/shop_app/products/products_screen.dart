@@ -3,6 +3,7 @@ import 'package:first_pro/layout/shop_app/cubit/cubit.dart';
 import 'package:first_pro/layout/shop_app/cubit/states.dart';
 import 'package:first_pro/models/shop_app/categories_model.dart';
 import 'package:first_pro/models/shop_app/home_model.dart';
+import 'package:first_pro/shared/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +13,13 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        // if (ShopSuccessChangeFavoritesState) {
+        //   if (!state.model.state) {
+        //     showToast(text: state.model.message, state: ToastStates.ERROR);
+        //   }
+        // }
+      },
       builder: (context, state) {
         return ShopCubit.get(context).homeModel != null &&
                 ShopCubit.get(context).categoriesModel != null
@@ -191,11 +198,15 @@ class ProductsScreen extends StatelessWidget {
                   Spacer(),
                   IconButton(
                     onPressed: () {
+                      ShopCubit.get(context).changeFavorites(model.id!); 
                       print(model.id);
                     },
                     icon: CircleAvatar(
                       radius: 15.0,
-                      backgroundColor: (ShopCubit.get(context).favorites[model.id] ?? false) ? Colors.deepOrange : Colors.grey,
+                      backgroundColor:
+                          (ShopCubit.get(context).favorites[model.id] ?? false)
+                              ? Colors.deepOrange
+                              : Colors.grey,
                       child: Icon(
                         Icons.favorite_border,
                         size: 14.0,

@@ -10,7 +10,7 @@ class DioHelper {
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
         headers: {
-          'Content-Type': 'aplication/json',
+          'Content-Type': 'application/json',
         }
       ),
     );
@@ -23,9 +23,10 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
-      // 'Content-Type': 'aplication/json',
+      'Content-Type': 'application/json',
       'lang': lang, 
-      'Authorization': token??''};
+      'Authorization': token??''
+      };
 
     return await dio!.get(url, queryParameters: query);
   }
@@ -38,7 +39,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
-      // 'Content-Type': 'aplication/json',
+      'Content-Type': 'application/json',
       'lang': lang, 
       'Authorization': token??''};
 
