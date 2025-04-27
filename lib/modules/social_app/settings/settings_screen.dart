@@ -14,8 +14,18 @@ class SettingsScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit, SocialStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var userModel = SocialCubit.get(context).userModel;
-        return Padding(
+        var cubit = SocialCubit.get(context);
+        // If the state is loading, show the CircularProgressIndicator
+        if (state is SocialGetUserLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        // Check if the userModel is null (in case of error or not fetched)
+        if (cubit.userModel == null) {
+          return Center(child: Text('Failed to load user data.'));
+        }
+
+        var userModel = cubit.userModel;
+            return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -155,12 +165,12 @@ class SettingsScreen extends StatelessWidget {
                     },
                     child: Icon(IconBroken.Edit, size: 16.0),
                   ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+            ],         
+        ),
+      ],
+    ),
+    );
+      },   
     );
   }
 }

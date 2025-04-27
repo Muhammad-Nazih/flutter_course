@@ -49,6 +49,7 @@ Widget defaultButton({
   Color background = Colors.orange,
   required VoidCallback onPressed,
   required String text,
+  TextStyle? style,
 }) => Container(
   color: background,
   width: width,
@@ -57,7 +58,7 @@ Widget defaultButton({
     onPressed: onPressed,
     child: Text(
       text.toUpperCase(),
-      style: TextStyle(fontSize: 20, color: Colors.white),
+      style: style ?? TextStyle(fontSize: 16, color: Colors.white),
     ),
   ),
 );
