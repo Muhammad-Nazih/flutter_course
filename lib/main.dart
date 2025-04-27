@@ -1,14 +1,19 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_pro/layout/news_app/cubit/cubit.dart';
 import 'package:first_pro/layout/news_app/news_layout.dart';
 import 'package:first_pro/layout/shop_app/cubit/cubit.dart';
 import 'package:first_pro/layout/shop_app/shop_layout.dart';
+import 'package:first_pro/layout/social_app/cubit/cubit.dart';
+import 'package:first_pro/layout/social_app/social_layout.dart';
 import 'package:first_pro/layout/todo_app/todo_layout.dart';
 import 'package:first_pro/modules/counter_app/counter/counter_screen.dart';
 import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/modules/shop_app/login/shop_login_screen.dart';
 import 'package:first_pro/modules/shop_app/on_boarding/on_boarding_screen.dart';
+import 'package:first_pro/modules/social_app/social_login/social_login_screen.dart';
 import 'package:first_pro/shared/bloc_observer.dart';
+import 'package:first_pro/shared/components/constants.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:first_pro/shared/cubit/states.dart';
 import 'package:first_pro/shared/network/local/cache_helper.dart';
@@ -19,36 +24,40 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-
-
 String? token;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   Bloc.observer = MyBlocObserver();
 
   await CacheHelper.init();
   DioHelper.init();
 
-
   bool? isDark = CacheHelper.getData(key: 'isDark');
-
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  token = CacheHelper.getData(key: 'token');
-  print('Token: $token');
 
   Widget widget;
 
-  // print(onBoarding);
+  //bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  //token = CacheHelper.getData(key: 'token');
 
-  if (onBoarding != null) {
-    if (token != null)
-      widget = ShopLayout();
-    else
-      widget = ShopLoginScreen();
+  uId = CacheHelper.getData(key: 'uId');
+
+  // if (onBoarding != null) {
+  //   if (token != null)
+  //     widget = ShopLayout();
+  //   else
+  //     widget = ShopLoginScreen();
+  // } else {
+  //   widget = OnBoardingScreen();
+  // }
+
+  if (uId != null) {
+    widget = SocialLayout();
   } else {
-    widget = OnBoardingScreen();
+    widget = SocialLoginScreen();
   }
 
   runApp(
@@ -90,6 +99,7 @@ class MyApp extends StatelessWidget {
                     ..getFavorites()
                     ..getUserData(),
         ),
+        BlocProvider(create: (context) => SocialCubit()..getUserData()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
