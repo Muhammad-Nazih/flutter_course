@@ -149,8 +149,10 @@ class EditProfileScreen extends StatelessWidget {
                               }, 
                               text: 'Upload Profile',
                             ),
-                            // SizedBox(width: 5.0),
-                            // LinearProgressIndicator(),
+                            if(state is SocialUserUpdateLoadingState)
+                              SizedBox(width: 5.0),
+                            if(state is SocialUserUpdateLoadingState)
+                              LinearProgressIndicator(),
                           ],
                         ),
                       ),
@@ -160,11 +162,19 @@ class EditProfileScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             defaultButton(
-                              onPressed: (){}, 
+                              onPressed: (){
+                                SocialCubit.get(context).uploadCoverImage(
+                                  name: nameController.text, 
+                                  phone: phoneController.text, 
+                                  bio: bioController.text,
+                                );
+                              }, 
                               text: 'Upload Cover',
                             ),
-                            // SizedBox(width: 5.0),
-                            // LinearProgressIndicator(),
+                            if(state is SocialUserUpdateLoadingState)
+                              SizedBox(width: 5.0),
+                            if(state is SocialUserUpdateLoadingState)
+                              LinearProgressIndicator(),
                           ],
                         ),
                       ),

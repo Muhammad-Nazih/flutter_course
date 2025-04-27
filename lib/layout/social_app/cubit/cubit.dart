@@ -101,6 +101,8 @@ class SocialCubit extends Cubit<SocialStates> {
     required String phone,
     required String bio,
   }) {
+    emit(SocialUserUpdateLoadingState());
+
     firebase_storage.FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
@@ -109,7 +111,7 @@ class SocialCubit extends Cubit<SocialStates> {
           value.ref
               .getDownloadURL()
               .then((value) {
-                emit(SocialUploadProfileImageSuccessState());
+                // emit(SocialUploadProfileImageSuccessState());
                 print(value);
                 updateUser(
                   name: name, 
@@ -132,7 +134,10 @@ class SocialCubit extends Cubit<SocialStates> {
     required String name,
     required String phone,
     required String bio,
-  }) {
+  }) 
+  {
+    emit(SocialUserUpdateLoadingState());
+
     firebase_storage.FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(coverImage!.path).pathSegments.last}')
@@ -141,7 +146,7 @@ class SocialCubit extends Cubit<SocialStates> {
           value.ref
               .getDownloadURL()
               .then((value) {
-                emit(SocialUploadCoverImageSuccessState());
+                //emit(SocialUploadCoverImageSuccessState());
                 print(value);
                 updateUser(
                   name: name, 
@@ -192,6 +197,54 @@ class SocialCubit extends Cubit<SocialStates> {
         });
   }
 
+
+  File? postImage;
+
+  Future<void> getPostImage() async {
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      postImage = File(pickedFile.path);
+      emit(SocialPostImagePickedSuccessState());
+    } else {
+      print('No image selected.');
+      emit(SocialPostImagePickedErrorState());
+    }
+  }
+
+
+  void createNewPost({
+    required String name,
+    required String uId,
+    required String image,
+    required String dateTime,
+    required String text,
+  }) 
+  {
+    emit(SocialCreatePostLoadingState());
+
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        .putFile(postImage!)
+        .then((value) {
+          value.ref
+              .getDownloadURL()
+              .then((value) {
+                //emit(SocialUploadCoverImageSuccessState());
+                print(value);
+                
+              })
+              .catchError((error) {
+                emit(SocialCreatePostErrorState());
+              });
+        })
+        .catchError((error) {
+          emit(SocialCreatePostErrorState());
+        });
+  }
 }
 
 
