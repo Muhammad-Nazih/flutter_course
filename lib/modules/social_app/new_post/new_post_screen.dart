@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewPostScreen extends StatelessWidget {
-  const NewPostScreen({super.key});
+  NewPostScreen({super.key});
+
+  var textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,20 @@ class NewPostScreen extends StatelessWidget {
             title: 'Create Post',
             actions: [
               defaultTextButton(
-                onPressed: () {},
+                onPressed: () {
+                  var now = DateTime.now();
+                  if(SocialCubit.get(context).postImage == null){
+                    SocialCubit.get(context).createPost(
+                      dateTime: now.toString(), 
+                      text: textController.text,
+                    );
+                  } else{
+                    SocialCubit.get(context).uploadPostImage(
+                      dateTime: now.toString(), 
+                      text: textController.text,
+                    );
+                  }
+                },
                 text: 'Post',
                 color: Colors.orange,
               ),
@@ -29,6 +44,12 @@ class NewPostScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
+                if(state is SocialCreatePostLoadingState)
+                  LinearProgressIndicator(),
+                if(state is SocialCreatePostLoadingState)
+                  SizedBox(
+                  height: 10.0,
+                ),
                 Row(
                   children: [
                     CircleAvatar(
@@ -43,17 +64,50 @@ class NewPostScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextFormField(
+                    controller: textController,
                     decoration: InputDecoration(
                       hintText: 'What is in your mind ...',
                       border: InputBorder.none,
                     ),
                   ),
                 ),
+                if(SocialCubit.get(context).postImage != null)
+                  // Stack(
+                  //           alignment: AlignmentDirectional.topEnd,
+                  //           children: [
+                  //             Container(
+                  //               height: 140.0,
+                  //               width: double.infinity,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(4),
+                  //                 image: DecorationImage(
+                  //                   // image: FileImage(SocialCubit.get(context).postImage),
+                  //                   fit: BoxFit.cover,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             IconButton(
+                  //               onPressed: () {
+                  //                 SocialCubit.get(context).getCoverImage();
+                  //               },
+                  //               icon: CircleAvatar(
+                  //                 radius: 20.0,
+                  //                 child: Icon(
+                  //                   Icons.close,
+                  //                   size: 18.0,
+                  //                   color: Colors.orange,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
                 Row(
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: (){}, 
+                        onPressed: (){
+                          SocialCubit.get(context).getPostImage();
+                        }, 
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

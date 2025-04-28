@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_pro/layout/shop_app/cubit/states.dart';
 import 'package:first_pro/layout/social_app/cubit/states.dart';
+import 'package:first_pro/models/social_app/post_model.dart';
 import 'package:first_pro/models/social_app/social_user_model.dart';
 import 'package:first_pro/modules/social_app/settings/settings_screen.dart';
 import 'package:first_pro/modules/social_app/chats/chats_screen.dart';
@@ -215,10 +216,7 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
 
-  void createNewPost({
-    required String name,
-    required String uId,
-    required String image,
+  void uploadPostImage({
     required String dateTime,
     required String text,
   }) 
@@ -233,13 +231,44 @@ class SocialCubit extends Cubit<SocialStates> {
           value.ref
               .getDownloadURL()
               .then((value) {
-                //emit(SocialUploadCoverImageSuccessState());
                 print(value);
-                
+                createPost(
+                  dateTime: dateTime, 
+                  text: text,
+                  postImage: value,
+                );
               })
               .catchError((error) {
                 emit(SocialCreatePostErrorState());
               });
+        })
+        .catchError((error) {
+          emit(SocialCreatePostErrorState());
+        });
+  }
+
+  void createPost({
+    required String dateTime,
+    required String text,
+    String? postImage,
+  })
+  {
+    emit(SocialCreatePostLoadingState());
+    PostModel model = PostModel(
+      name: userModel!.name,
+      image: userModel!.image,
+      uId: userModel!.uId,
+      dateTime: dateTime,
+      text: text,
+      postImage: postImage??'',
+    );
+
+
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(model.toMap())
+        .then((value) {
+          emit(SocialCreatePostSuccessState());
         })
         .catchError((error) {
           emit(SocialCreatePostErrorState());
