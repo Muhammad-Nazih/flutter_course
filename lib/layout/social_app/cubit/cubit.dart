@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_pro/layout/shop_app/cubit/states.dart';
 import 'package:first_pro/layout/social_app/cubit/states.dart';
 import 'package:first_pro/models/social_app/post_model.dart';
 import 'package:first_pro/models/social_app/social_user_model.dart';
+import 'package:first_pro/models/user/user_model.dart';
 import 'package:first_pro/modules/social_app/settings/settings_screen.dart';
 import 'package:first_pro/modules/social_app/chats/chats_screen.dart';
 import 'package:first_pro/modules/social_app/feeds/feeds_screen.dart';
@@ -95,8 +97,6 @@ class SocialCubit extends Cubit<SocialStates> {
     }
   }
 
-
-
   void uploadProfileImage({
     required String name,
     required String phone,
@@ -114,12 +114,7 @@ class SocialCubit extends Cubit<SocialStates> {
               .then((value) {
                 // emit(SocialUploadProfileImageSuccessState());
                 print(value);
-                updateUser(
-                  name: name, 
-                  phone: phone, 
-                  bio: bio,
-                  image: value,
-                  );
+                updateUser(name: name, phone: phone, bio: bio, image: value);
               })
               .catchError((error) {
                 emit(SocialUploadProfileImageErrorState());
@@ -130,13 +125,11 @@ class SocialCubit extends Cubit<SocialStates> {
         });
   }
 
-
   void uploadCoverImage({
     required String name,
     required String phone,
     required String bio,
-  }) 
-  {
+  }) {
     emit(SocialUserUpdateLoadingState());
 
     firebase_storage.FirebaseStorage.instance
@@ -149,12 +142,7 @@ class SocialCubit extends Cubit<SocialStates> {
               .then((value) {
                 //emit(SocialUploadCoverImageSuccessState());
                 print(value);
-                updateUser(
-                  name: name, 
-                  phone: phone, 
-                  bio: bio,
-                  cover: value,
-                  );
+                updateUser(name: name, phone: phone, bio: bio, cover: value);
               })
               .catchError((error) {
                 emit(SocialUploadCoverImageErrorState());
@@ -165,15 +153,13 @@ class SocialCubit extends Cubit<SocialStates> {
         });
   }
 
-
   void updateUser({
     required String name,
     required String phone,
     required String bio,
     String? cover,
     String? image,
-  })
-  {
+  }) {
     SocialUserModel model = SocialUserModel(
       name: name,
       phone: phone,
@@ -184,7 +170,6 @@ class SocialCubit extends Cubit<SocialStates> {
       uId: userModel!.uId,
       isEmailVerified: false,
     );
-
 
     FirebaseFirestore.instance
         .collection('users')
@@ -197,7 +182,6 @@ class SocialCubit extends Cubit<SocialStates> {
           emit(SocialUserUpdateErrorState());
         });
   }
-
 
   File? postImage;
 
@@ -215,12 +199,12 @@ class SocialCubit extends Cubit<SocialStates> {
     }
   }
 
+  void removePostImage() {
+    postImage = null;
+    emit(SocialRemovePostImageState());
+  }
 
-  void uploadPostImage({
-    required String dateTime,
-    required String text,
-  }) 
-  {
+  void uploadPostImage({required String dateTime, required String text}) {
     emit(SocialCreatePostLoadingState());
 
     firebase_storage.FirebaseStorage.instance
@@ -232,11 +216,7 @@ class SocialCubit extends Cubit<SocialStates> {
               .getDownloadURL()
               .then((value) {
                 print(value);
-                createPost(
-                  dateTime: dateTime, 
-                  text: text,
-                  postImage: value,
-                );
+                createPost(dateTime: dateTime, text: text, postImage: value);
               })
               .catchError((error) {
                 emit(SocialCreatePostErrorState());
@@ -251,8 +231,7 @@ class SocialCubit extends Cubit<SocialStates> {
     required String dateTime,
     required String text,
     String? postImage,
-  })
-  {
+  }) {
     emit(SocialCreatePostLoadingState());
     PostModel model = PostModel(
       name: userModel!.name,
@@ -260,9 +239,8 @@ class SocialCubit extends Cubit<SocialStates> {
       uId: userModel!.uId,
       dateTime: dateTime,
       text: text,
-      postImage: postImage??'',
+      postImage: postImage ?? '',
     );
-
 
     FirebaseFirestore.instance
         .collection('posts')
@@ -272,6 +250,65 @@ class SocialCubit extends Cubit<SocialStates> {
         })
         .catchError((error) {
           emit(SocialCreatePostErrorState());
+        });
+  }
+
+  List<PostModel> posts = [];
+  List<String> postsId = [];
+  List<int> likes = [];
+
+  void getPosts() {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .get()
+        .then((value) {
+          value.docs.forEach((element) {
+            element.reference
+                .collection('likes')
+                .get()
+                .then((value) {
+                  likes.add(value.docs.length);
+                  postsId.add(element.id);
+                  posts.add(PostModel.fromJson(element.data()));
+                })
+                .catchError((error) {});
+          });
+          emit(SocialGetPostsSuccessState());
+        })
+        .catchError((error) {
+          emit(SocialGetPostsErrorState(error.toString()));
+        });
+  }
+
+  void likePost(String postId) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .doc(userModel!.uId)
+        .set({'likes': true})
+        .then((value) {
+          emit(SocialLikePostsSuccessState());
+        })
+        .catchError((error) {
+          emit(SocialLikePostsErrorState(error.toString()));
+        });
+  }
+
+  List<SocialUserModel> users = [];
+
+  void getUsers(){
+    FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((value) {
+          value.docs.forEach((element) {
+            users.add(SocialUserModel.fromJson(element.data()));
+          });
+          emit(SocialGetAllUsersSuccessState());
+        })
+        .catchError((error) {
+          emit(SocialGetAllUsersErrorState(error.toString()));
         });
   }
 }

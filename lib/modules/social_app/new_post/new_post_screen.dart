@@ -23,14 +23,14 @@ class NewPostScreen extends StatelessWidget {
               defaultTextButton(
                 onPressed: () {
                   var now = DateTime.now();
-                  if(SocialCubit.get(context).postImage == null){
+                  if (SocialCubit.get(context).postImage == null) {
                     SocialCubit.get(context).createPost(
-                      dateTime: now.toString(), 
+                      dateTime: now.toString(),
                       text: textController.text,
                     );
-                  } else{
+                  } else {
                     SocialCubit.get(context).uploadPostImage(
-                      dateTime: now.toString(), 
+                      dateTime: now.toString(),
                       text: textController.text,
                     );
                   }
@@ -44,12 +44,10 @@ class NewPostScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                if(state is SocialCreatePostLoadingState)
+                if (state is SocialCreatePostLoadingState)
                   LinearProgressIndicator(),
-                if(state is SocialCreatePostLoadingState)
-                  SizedBox(
-                  height: 10.0,
-                ),
+                if (state is SocialCreatePostLoadingState)
+                  SizedBox(height: 10.0),
                 Row(
                   children: [
                     CircleAvatar(
@@ -71,43 +69,47 @@ class NewPostScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                if(SocialCubit.get(context).postImage != null)
-                  // Stack(
-                  //           alignment: AlignmentDirectional.topEnd,
-                  //           children: [
-                  //             Container(
-                  //               height: 140.0,
-                  //               width: double.infinity,
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(4),
-                  //                 image: DecorationImage(
-                  //                   // image: FileImage(SocialCubit.get(context).postImage),
-                  //                   fit: BoxFit.cover,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             IconButton(
-                  //               onPressed: () {
-                  //                 SocialCubit.get(context).getCoverImage();
-                  //               },
-                  //               icon: CircleAvatar(
-                  //                 radius: 20.0,
-                  //                 child: Icon(
-                  //                   Icons.close,
-                  //                   size: 18.0,
-                  //                   color: Colors.orange,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
+                SizedBox(height: 20.0),
+                if (SocialCubit.get(context).postImage != null)
+                  Stack(
+                    alignment: AlignmentDirectional.topEnd,
+                    children: [
+                      Container(
+                        height: 140.0,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          image: DecorationImage(
+                            image: FileImage(
+                              SocialCubit.get(context).postImage!,
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          SocialCubit.get(context).removePostImage();
+                        },
+                        icon: CircleAvatar(
+                          radius: 20.0,
+                          child: Icon(
+                            Icons.close,
+                            size: 18.0,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                SizedBox(height: 20.0),
                 Row(
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: (){
+                        onPressed: () {
                           SocialCubit.get(context).getPostImage();
-                        }, 
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -120,8 +122,8 @@ class NewPostScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextButton(
-                          onPressed: (){}, 
-                          child: Text('# tags'),
+                        onPressed: () {},
+                        child: Text('# tags'),
                       ),
                     ),
                   ],
