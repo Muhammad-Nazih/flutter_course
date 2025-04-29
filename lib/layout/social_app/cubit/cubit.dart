@@ -56,6 +56,9 @@ class SocialCubit extends Cubit<SocialStates> {
   List<String> titles = ['Home', 'Chats', '', 'Users', 'Settings'];
 
   void changeBottomNav(int index) {
+    if(index == 1){
+      getUsers();
+    }  
     if (index == 2) {
       emit(SocialNewPostState());
     } else {
@@ -295,14 +298,16 @@ class SocialCubit extends Cubit<SocialStates> {
         });
   }
 
-  List<SocialUserModel> users = [];
+  late List<SocialUserModel> users;
 
   void getUsers(){
+    users = [];
     FirebaseFirestore.instance
         .collection('users')
         .get()
         .then((value) {
           value.docs.forEach((element) {
+            if(element.data()['uId'] != userModel!.uId)
             users.add(SocialUserModel.fromJson(element.data()));
           });
           emit(SocialGetAllUsersSuccessState());
