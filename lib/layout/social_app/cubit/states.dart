@@ -65,6 +65,8 @@ class SocialUserUpdateLoadingState extends SocialStates {}
 
 class SocialUserUpdateErrorState extends SocialStates {}
 
+// create post
+
 class SocialCreatePostLoadingState extends SocialStates {}
 
 class SocialCreatePostSuccessState extends SocialStates {}
@@ -76,3 +78,12 @@ class SocialPostImagePickedSuccessState extends SocialStates {}
 class SocialPostImagePickedErrorState extends SocialStates {}
 
 class SocialRemovePostImageState extends SocialStates {}
+
+//chat
+
+class SocialSendMessageSuccessState extends SocialStates {}
+
+class SocialSendMessageErrorState extends SocialStates {}
+
+class SocialGetMessagesSuccessState extends SocialStates {}
+

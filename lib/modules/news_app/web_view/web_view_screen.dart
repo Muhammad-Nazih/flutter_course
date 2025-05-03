@@ -4,22 +4,23 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewScreen extends StatelessWidget {
   final String url;
 
-  const WebViewScreen(this.url, {super.key});
+  WebViewScreen(this.url, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final WebViewController controller =
-        WebViewController()..loadRequest(Uri.parse(url));
-    // ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    // ..setNavigationDelegate(
-    //   // NavigationDelegate(
-    //   //   onProgress: (int progress) {},
-    //   //   onPageStarted: (String url) {},
-    //   //   onPageFinished: (String url) {},
-    //   //   onHttpError: (HttpResponseError error) {},
-    //   //   onWebResourceError: (WebResourceError error) {},
-    //   // ),
-    // )
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onHttpError: (HttpResponseError error) {},
+              onWebResourceError: (WebResourceError error) {},
+            ),
+          )
+          ..loadRequest(Uri.parse(url));
     return Scaffold(
       appBar: AppBar(title: const Text('News Details')),
       body: WebViewWidget(controller: controller),

@@ -46,12 +46,16 @@ dependencies:
   fluttertoast: ^8.2.12
   carousel_slider: ^5.0.0
   image_picker: ^1.1.2
+  conditional_builder_null_safety: ^0.0.6 #This the alternative package
+  desktop_window: ^0.4.2
+  responsive_builder: ^0.7.1
 
   #firebase
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.2
   cloud_firestore: ^5.6.6
   firebase_storage: ^12.4.5
+  firebase_messaging: ^15.2.5
 
 dev_dependencies:
   flutter_test:

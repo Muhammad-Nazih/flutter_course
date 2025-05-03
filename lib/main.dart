@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:first_pro/layout/news_app/cubit/cubit.dart';
 import 'package:first_pro/layout/news_app/news_layout.dart';
 import 'package:first_pro/layout/shop_app/cubit/cubit.dart';
@@ -13,6 +14,7 @@ import 'package:first_pro/modules/shop_app/login/shop_login_screen.dart';
 import 'package:first_pro/modules/shop_app/on_boarding/on_boarding_screen.dart';
 import 'package:first_pro/modules/social_app/social_login/social_login_screen.dart';
 import 'package:first_pro/shared/bloc_observer.dart';
+import 'package:first_pro/shared/components/components.dart';
 import 'package:first_pro/shared/components/constants.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
 import 'package:first_pro/shared/cubit/states.dart';
@@ -26,10 +28,40 @@ import 'package:hexcolor/hexcolor.dart';
 
 String? token;
 
+// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   print('on background message');
+//   print(message.data.toString());
+
+//   showToast(text: 'on background message', state: ToastStates.SUCCESS);
+// }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+
+  // var token = await FirebaseMessaging.instance.getToken();
+
+  // print(token);
+
+  // // Foreground FCM
+  // FirebaseMessaging.onMessage.listen((event) {
+  //   print('on message');
+  //   print(event.data.toString());
+
+  //   showToast(text: 'on message', state: ToastStates.SUCCESS);
+  // });
+
+  // // click on the notification to open it
+  // FirebaseMessaging.onMessageOpenedApp.listen((event) {
+  //   print('on message opened app');
+  //   print(event.data.toString());
+
+  //   showToast(text: 'on message opened app', state: ToastStates.SUCCESS);
+  // });
+
+  // // Background FCM
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   Bloc.observer = MyBlocObserver();
 
@@ -99,7 +131,13 @@ class MyApp extends StatelessWidget {
                     ..getFavorites()
                     ..getUserData(),
         ),
-        BlocProvider(create: (context) => SocialCubit()..getUserData()..getPosts()),
+        BlocProvider(
+          create:
+              (context) =>
+                  SocialCubit()
+                    ..getUserData()
+                    ..getPosts(),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
@@ -110,7 +148,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: ThemeMode.light,
             // AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: startWidget,
+            home: NewsLayout(),
           );
         },
       ),

@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:first_pro/layout/shop_app/cubit/cubit.dart';
 import 'package:first_pro/modules/news_app/web_view/web_view_screen.dart';
 import 'package:first_pro/shared/cubit/cubit.dart';
@@ -218,16 +219,17 @@ void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
   },
 );
 
-Widget articleBuilder(list, context) =>
-    list.length > 0
-        ? ListView.separated(
-          physics: BouncingScrollPhysics(),
-          itemBuilder:
-              (context, index) => buildArticleItem(list[index], context),
-          separatorBuilder: (context, index) => myDivider(),
-          itemCount: 10,
-        )
-        : Center(child: CircularProgressIndicator());
+Widget articleBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
+  condition: list.length > 0,
+  builder:
+      (context) => ListView.separated(
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+        separatorBuilder: (context, index) => myDivider(),
+        itemCount: 10,
+      ),
+  fallback: (context) => Center(child: CircularProgressIndicator()),
+);
 
 void showToast({required String text, required ToastStates state}) =>
     Fluttertoast.showToast(
