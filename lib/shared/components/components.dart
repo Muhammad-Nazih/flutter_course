@@ -48,6 +48,7 @@ PreferredSizeWidget defaultAppBar({
 Widget defaultButton({
   double? width,
   Color background = Colors.orange,
+  bool isUpperCase = true,
   required VoidCallback onPressed,
   required String text,
   TextStyle? style,
@@ -58,7 +59,7 @@ Widget defaultButton({
   child: MaterialButton(
     onPressed: onPressed,
     child: Text(
-      text.toUpperCase(),
+      isUpperCase ? text.toUpperCase() : text,
       style: style ?? TextStyle(fontSize: 16, color: Colors.white),
     ),
   ),

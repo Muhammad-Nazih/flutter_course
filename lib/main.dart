@@ -28,40 +28,40 @@ import 'package:hexcolor/hexcolor.dart';
 
 String? token;
 
-// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   print('on background message');
-//   print(message.data.toString());
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('on background message');
+  print(message.data.toString());
 
-//   showToast(text: 'on background message', state: ToastStates.SUCCESS);
-// }
+  showToast(text: 'on background message', state: ToastStates.SUCCESS);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
-  // var token = await FirebaseMessaging.instance.getToken();
+  var token = await FirebaseMessaging.instance.getToken();
 
-  // print(token);
+  print(token);
 
-  // // Foreground FCM
-  // FirebaseMessaging.onMessage.listen((event) {
-  //   print('on message');
-  //   print(event.data.toString());
+  // Foreground FCM
+  FirebaseMessaging.onMessage.listen((event) {
+    print('on message');
+    print(event.data.toString());
 
-  //   showToast(text: 'on message', state: ToastStates.SUCCESS);
-  // });
+    showToast(text: 'on message', state: ToastStates.SUCCESS);
+  });
 
-  // // click on the notification to open it
-  // FirebaseMessaging.onMessageOpenedApp.listen((event) {
-  //   print('on message opened app');
-  //   print(event.data.toString());
+  // click on the notification to open it
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    print('on message opened app');
+    print(event.data.toString());
 
-  //   showToast(text: 'on message opened app', state: ToastStates.SUCCESS);
-  // });
+    showToast(text: 'on message opened app', state: ToastStates.SUCCESS);
+  });
 
-  // // Background FCM
-  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // Background FCM
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   Bloc.observer = MyBlocObserver();
 
@@ -148,7 +148,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: ThemeMode.light,
             // AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: NewsLayout(),
+            home: startWidget,
           );
         },
       ),
