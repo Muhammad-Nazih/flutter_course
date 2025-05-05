@@ -29,6 +29,7 @@ class AppCubit extends Cubit<AppStates> {
   List<Map> newTasks = [];
   List<Map> doneTasks = [];
   List<Map> archivedTasks = [];
+  
   void createDatabase() {
     openDatabase(
       'todo.db',
