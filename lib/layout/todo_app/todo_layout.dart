@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:first_pro/modules/todo_app/archived_tasks/archived_tasks_screen.dart';
 import 'package:first_pro/modules/todo_app/done_tasks/done_tasks_screen.dart';
 import 'package:first_pro/modules/todo_app/new_tasks/new_tasks_screen.dart';
@@ -38,10 +39,11 @@ class HomeLayout extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            body:
-                state is! AppGetDatabaseLoadingState
-                    ? cubit.screens[cubit.currentIndex]
-                    : Center(child: CircularProgressIndicator()),
+            body: ConditionalBuilder(
+              condition: state is! AppGetDatabaseLoadingState, 
+              builder: (context) => cubit.screens[cubit.currentIndex], 
+              fallback: (context) => Center(child: CircularProgressIndicator())
+              ),
             // tasks.length == 0
             //     ? Center(child: CircularProgressIndicator())
             //     : cubit.screens[cubit.currentIndex],
@@ -164,7 +166,10 @@ class HomeLayout extends StatelessWidget {
                 cubit.changeIndex(index);
               },
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Tasks'),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu), 
+                  label: 'Tasks'
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.check_circle_outline),
                   label: 'Done',

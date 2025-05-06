@@ -26,6 +26,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Database? database;
+  
   List<Map> newTasks = [];
   List<Map> doneTasks = [];
   List<Map> archivedTasks = [];
