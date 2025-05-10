@@ -302,20 +302,21 @@ class SocialCubit extends Cubit<SocialStates> {
   late List<SocialUserModel> users;
 
   void getUsers() {
-    users = [];
-    FirebaseFirestore.instance
-        .collection('users')
-        .get()
-        .then((value) {
-          value.docs.forEach((element) {
-            if (element.data()['uId'] != userModel!.uId)
-              users.add(SocialUserModel.fromJson(element.data()));
+    if (users.isEmpty) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .get()
+          .then((value) {
+            value.docs.forEach((element) {
+              if (element.data()['uId'] != userModel!.uId)
+                users.add(SocialUserModel.fromJson(element.data()));
+            });
+            emit(SocialGetAllUsersSuccessState());
+          })
+          .catchError((error) {
+            emit(SocialGetAllUsersErrorState(error.toString()));
           });
-          emit(SocialGetAllUsersSuccessState());
-        })
-        .catchError((error) {
-          emit(SocialGetAllUsersErrorState(error.toString()));
-        });
+    }
   }
 
   void sendMessage({required receiverId, required dateTime, required text}) {

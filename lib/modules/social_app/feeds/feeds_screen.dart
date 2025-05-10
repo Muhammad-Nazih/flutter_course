@@ -15,7 +15,7 @@ class FeedsScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit, SocialStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        return SocialCubit.get(context).posts.length > 0 && SocialCubit.get(context).posts.length != null
+        return SocialCubit.get(context).posts.isNotEmpty
             ? SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
